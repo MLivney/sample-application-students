@@ -17,7 +17,6 @@ script:
 
 # Create your branch
 $ git checkout -b ci_config
-COPY
 
 # Add the pipeline script to git
 $ git add .travis.yml
@@ -27,3 +26,8 @@ $ git commit -m "ci: first version of the pipeline to automate unit and integrat
 
 # Push
 $ git push --set-upstream origin ci_config
+
+# Cache the .m2 folder to prevent redownloading dependencies on each build
+cache:
+  directories:
+  - "$HOME/.m2/repository"
