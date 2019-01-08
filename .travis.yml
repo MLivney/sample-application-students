@@ -1,54 +1,37 @@
 language: java
 jdk: oraclejdk8
-
-# Define the services to use
 services:
-  - docker
-
+- docker
 before_install:
-  - sudo service mysql stop
-  - docker pull takimatraining/devops-training-db
-  - docker run -d -p 127.0.0.1:3306:3306 takimatraining/devops-training-db
-
-# Run Unit Test and Integration Tests
+- openssl aes-256-cbc -K $encrypted_4a9a75ae2b9a_key -iv $encrypted_4a9a75ae2b9a_iv
+  -in id_rsa_insa_training.enc -out ~\/.ssh/id_rsa_insa_training -d
+- sudo service mysql stop
+- docker pull takimatraining/devops-training-db
+- docker run -d -p 127.0.0.1:3306:3306 takimatraining/devops-training-db
 script:
-  - mvn verify
-  - |
-    mvn clean install sonar:sonar \
-    -Dsonar.projectKey="MLivney_sample-application-students" \
-    -Dsonar.organization="mlivney-github" \
-    -Dsonar.host.url=https://sonarcloud.io \
-    -Dsonar.login=$SONAR_TOKEN
-
-# Cache the .m2 folder to prevent redownloading dependencies on each build
+- mvn verify
+- |
+  mvn clean install sonar:sonar \
+  -Dsonar.projectKey="MLivney_sample-application-students" \
+  -Dsonar.organization="mlivney-github" \
+  -Dsonar.host.url=https://sonarcloud.io \
+  -Dsonar.login=$SONAR_TOKEN
 cache:
   directories:
   - "$HOME/.m2/repository"
-
-# Environment variables are strings (double quotes)
-# Example:
-# - secure: "DpR1th9rZvLMX0......"
 env:
   global:
-    - secure: "m7w02tJFGEayuBD5YWQsJOyhOwxbDAxI5TYmUow2JOx0xF/Qopf8eY25W526MmBJxar5ccqzX3s0zReXMq+fNO4u9HuTxpgTPb3c6GkcBSpCPEUQuCAATLCOX0Z33MXJgwYJr6aHk1POqOTyUy7d/E/kMGSx3zD70EevkLn0lLom0f/p5DWfU94kST5/EbRRxMQmfWaAbHemlYSYOdZHnC/vK9FNWVSdR4CB8B83Y5pRoWFTXCYrmhIJJR0U9MxWUFf9Xuts/ZEy9FNTvuCcYZw/++81T5TFaRGoDg4Yf1uvyWgapQ3EbNsJGLQwC1MXj58wxzFZjLQ5LZANcy7/ABAonrJgMSp/QTcBkd0OtngW5WIBMK43LMdDCNWUq9Td0HAEpbdfk5nH9Yo83PNLLDYOOk8tszrnvqoZVjeQ4WQ2dUHo8ypdgzh4i093PfELGaZvIUCY4tGYixgAfC1qB5d+K3kAhuCHUdzFhJ1my5GLWVvx07RcZUngN3KpH10hDJ4hu5KxW0uW3mvFAq1obXUL1KPniIQZaqgJVlkfhrKSqEaVET375am59ZLkQ9qQfvQINGtKDzLSB9zW5nFxzw0j2KHFTzmqdDMEyN514QzLCFvkR/lClfHJyD0QDB7vdE+CfcESHOluzYqVLVF7GTLdW2MrKSa1H+fnMdw6+jE="
-    - secure: "IQRgvaQEfSt6hpMwj8RiwB+Qzy3pYDfLrkgLN1TGLMLmbjB4NDsRDXkZrG/HGX30dyh11eeQ87GFnnUfa+do1dnanFLXjn54wA7fLLW7IymxOe0fQ/63fv2I0RiLT2ff93fDgM9HKeQnaz6FTpIps4gfeYWzlGPCaH0LU+b76NmcGa6QgWhKkwIhgfEEyZfWBuFmJ29g4cGvaXF7wXrqVcLMC0csYudFhk99KOa/5hZg332sKzEtGWiDroNDj1Qiz+X6egVGA6TkXIKYdSqRCc8xSZBpsajpsZv02zb/rX0h0wxxm5f+DWE/0PgLuQ9QwIGoILzHqlvaofKEiUaDza3NqpYR883C0Ou2k7MzhWYfdTYMfnSP8utV7V2xIOkKqJg6bmQ5uYaj+Am1uk7lfOdK6WR28yq9HKiX5zLo72/0hd/aWGpFffqSGfxVu4B8GTEm9N6nQhU9J63ZDYlFNQjkIC/JAmvWaEDTdtm3hgekmyn1nE767WGR+Y28gzxVbacIT6vjCJh205eTDNkkka0ss9l7zlKHgP5uxVCOw6/DbKMmtZYxAX+832iDWbXUHeZTnvwfbQIYxtDrm5ZfJr/OTZR9mtngyoPyQCBQ4DRxkoRREE/nhx2F/KJ2XDCGZEN5QzLIZQ70BZ+CKR1kOzuMFml4bhH+bKuWU3XxZ3A="
-    - secure: "gMWWJwggTeP0Amw96oh2aNKvkFmHBgFX/7XZ0c3qEv6iNoszzDjNW4ka0SIGRKOFRVSUUdep0i/2zNBuzWR+Td9l5PDMy7dkKx3gV+lJqTmUqR1c8SGUIpR48MpSWXiCbgBGmh1n3Ec798B3IK5Jb9DxX8maNjLWilMqg6bARfMBVSGFMbyLnNzPQQs42u9HJjdBWuQxp1LxPAji/QuNgnr5H+PYN4vVe1F3h0lGaPhkVeqv0a2AW5zw//0VZ9o/jXJK98L5Y8SJKXDgfpS4DbRke4kSKuJ/IIy/Pb0/28ef96UkIa5Iky/5GmA/ixOwCHJm9E8v9wLxUs7usUwLiBYD6h5S/Vrblt2B2APQmHcfozDieEZCUnrrmsHXjaiPnxro7+x/dm4jxIzvPuE0sNBwgf5d7hy2W8zl7mj1/2QtzJ//yFtnY6BHDIfl4gcXlEuliNGXq44H6ThjOQvCLVCcrqTWGNHkZJOW6QsAUeREsoi7+k0eibitRn5zRl1sFwEIZTNsecMXl/tZGfsH60GxOiDdRv8i7RsVH6XJDHeWClDKlybW88chfY9Pb85xELzgGvuENUYATC1GXkJFfmU7sX+cTXXmCLsc+D14KbHhOn5ZToGPHJGx3uTqIa7QW7FM7zXbAHoxRczft70hSh5BxFrUm1X5t+D1bSww64U="
-# Send an email to the commiter if the pipeline failed at some point
+  - secure: m7w02tJFGEayuBD5YWQsJOyhOwxbDAxI5TYmUow2JOx0xF/Qopf8eY25W526MmBJxar5ccqzX3s0zReXMq+fNO4u9HuTxpgTPb3c6GkcBSpCPEUQuCAATLCOX0Z33MXJgwYJr6aHk1POqOTyUy7d/E/kMGSx3zD70EevkLn0lLom0f/p5DWfU94kST5/EbRRxMQmfWaAbHemlYSYOdZHnC/vK9FNWVSdR4CB8B83Y5pRoWFTXCYrmhIJJR0U9MxWUFf9Xuts/ZEy9FNTvuCcYZw/++81T5TFaRGoDg4Yf1uvyWgapQ3EbNsJGLQwC1MXj58wxzFZjLQ5LZANcy7/ABAonrJgMSp/QTcBkd0OtngW5WIBMK43LMdDCNWUq9Td0HAEpbdfk5nH9Yo83PNLLDYOOk8tszrnvqoZVjeQ4WQ2dUHo8ypdgzh4i093PfELGaZvIUCY4tGYixgAfC1qB5d+K3kAhuCHUdzFhJ1my5GLWVvx07RcZUngN3KpH10hDJ4hu5KxW0uW3mvFAq1obXUL1KPniIQZaqgJVlkfhrKSqEaVET375am59ZLkQ9qQfvQINGtKDzLSB9zW5nFxzw0j2KHFTzmqdDMEyN514QzLCFvkR/lClfHJyD0QDB7vdE+CfcESHOluzYqVLVF7GTLdW2MrKSa1H+fnMdw6+jE=
+  - secure: IQRgvaQEfSt6hpMwj8RiwB+Qzy3pYDfLrkgLN1TGLMLmbjB4NDsRDXkZrG/HGX30dyh11eeQ87GFnnUfa+do1dnanFLXjn54wA7fLLW7IymxOe0fQ/63fv2I0RiLT2ff93fDgM9HKeQnaz6FTpIps4gfeYWzlGPCaH0LU+b76NmcGa6QgWhKkwIhgfEEyZfWBuFmJ29g4cGvaXF7wXrqVcLMC0csYudFhk99KOa/5hZg332sKzEtGWiDroNDj1Qiz+X6egVGA6TkXIKYdSqRCc8xSZBpsajpsZv02zb/rX0h0wxxm5f+DWE/0PgLuQ9QwIGoILzHqlvaofKEiUaDza3NqpYR883C0Ou2k7MzhWYfdTYMfnSP8utV7V2xIOkKqJg6bmQ5uYaj+Am1uk7lfOdK6WR28yq9HKiX5zLo72/0hd/aWGpFffqSGfxVu4B8GTEm9N6nQhU9J63ZDYlFNQjkIC/JAmvWaEDTdtm3hgekmyn1nE767WGR+Y28gzxVbacIT6vjCJh205eTDNkkka0ss9l7zlKHgP5uxVCOw6/DbKMmtZYxAX+832iDWbXUHeZTnvwfbQIYxtDrm5ZfJr/OTZR9mtngyoPyQCBQ4DRxkoRREE/nhx2F/KJ2XDCGZEN5QzLIZQ70BZ+CKR1kOzuMFml4bhH+bKuWU3XxZ3A=
+  - secure: gMWWJwggTeP0Amw96oh2aNKvkFmHBgFX/7XZ0c3qEv6iNoszzDjNW4ka0SIGRKOFRVSUUdep0i/2zNBuzWR+Td9l5PDMy7dkKx3gV+lJqTmUqR1c8SGUIpR48MpSWXiCbgBGmh1n3Ec798B3IK5Jb9DxX8maNjLWilMqg6bARfMBVSGFMbyLnNzPQQs42u9HJjdBWuQxp1LxPAji/QuNgnr5H+PYN4vVe1F3h0lGaPhkVeqv0a2AW5zw//0VZ9o/jXJK98L5Y8SJKXDgfpS4DbRke4kSKuJ/IIy/Pb0/28ef96UkIa5Iky/5GmA/ixOwCHJm9E8v9wLxUs7usUwLiBYD6h5S/Vrblt2B2APQmHcfozDieEZCUnrrmsHXjaiPnxro7+x/dm4jxIzvPuE0sNBwgf5d7hy2W8zl7mj1/2QtzJ//yFtnY6BHDIfl4gcXlEuliNGXq44H6ThjOQvCLVCcrqTWGNHkZJOW6QsAUeREsoi7+k0eibitRn5zRl1sFwEIZTNsecMXl/tZGfsH60GxOiDdRv8i7RsVH6XJDHeWClDKlybW88chfY9Pb85xELzgGvuENUYATC1GXkJFfmU7sX+cTXXmCLsc+D14KbHhOn5ZToGPHJGx3uTqIa7QW7FM7zXbAHoxRczft70hSh5BxFrUm1X5t+D1bSww64U=
 notifications:
   email:
     on_failure: always
-
-# Build an image containing the .jar and push it to the Docker Hub
 after_success:
-  # Login to Docker hub
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  # Tag text according to the branch
-  - export TAG='if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi'
-  # Image name
-  - export IMAGE_NAME=takimatraining/sample-application
-  # Build the image (see Dockerfile) and tag it with the commit ID
-  - docker build -t $IMAGE_NAME:$TRAVIS_COMMIT .
-  # Retag the image with the previously choosen tag
-  - docker tag $IMAGE_NAME:$TRAVIS_COMMIT $IMAGE_NAME:$TAG
-  # Push the tagged image to Docker Hub
-  - docker push $IMAGE_NAME:$TAG
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- export TAG='if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH;
+  fi'
+- export IMAGE_NAME=takimatraining/sample-application
+- docker build -t $IMAGE_NAME:$TRAVIS_COMMIT .
+- docker tag $IMAGE_NAME:$TRAVIS_COMMIT $IMAGE_NAME:$TAG
+- docker push $IMAGE_NAME:$TAG
