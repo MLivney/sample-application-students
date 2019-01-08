@@ -15,8 +15,8 @@ script:
   - mvn verify
   - |
     mvn clean install sonar:sonar \
-    -Dsonar.projectKey=<SONAR_PROJECT_KEY> \
-    -Dsonar.organization=<SONAR_ORGANISATION_KEY> \
+    -Dsonar.projectKey="MLivney_sample-application-students" \
+    -Dsonar.organization="mlivney-github" \
     -Dsonar.host.url=https://sonarcloud.io \
     -Dsonar.login=$SONAR_TOKEN
 
@@ -30,7 +30,7 @@ cache:
 # - secure: "DpR1th9rZvLMX0......"
 env:
   global:
-    - secure: m7w02tJFGEayuBD5YWQsJOyhOwxbDAxI5TYmUow2JOx0xF/Qopf8eY25W526MmBJxar5ccqzX3s0zReXMq+fNO4u9HuTxpgTPb3c6GkcBSpCPEUQuCAATLCOX0Z33MXJgwYJr6aHk1POqOTyUy7d/E/kMGSx3zD70EevkLn0lLom0f/p5DWfU94kST5/EbRRxMQmfWaAbHemlYSYOdZHnC/vK9FNWVSdR4CB8B83Y5pRoWFTXCYrmhIJJR0U9MxWUFf9Xuts/ZEy9FNTvuCcYZw/++81T5TFaRGoDg4Yf1uvyWgapQ3EbNsJGLQwC1MXj58wxzFZjLQ5LZANcy7/ABAonrJgMSp/QTcBkd0OtngW5WIBMK43LMdDCNWUq9Td0HAEpbdfk5nH9Yo83PNLLDYOOk8tszrnvqoZVjeQ4WQ2dUHo8ypdgzh4i093PfELGaZvIUCY4tGYixgAfC1qB5d+K3kAhuCHUdzFhJ1my5GLWVvx07RcZUngN3KpH10hDJ4hu5KxW0uW3mvFAq1obXUL1KPniIQZaqgJVlkfhrKSqEaVET375am59ZLkQ9qQfvQINGtKDzLSB9zW5nFxzw0j2KHFTzmqdDMEyN514QzLCFvkR/lClfHJyD0QDB7vdE+CfcESHOluzYqVLVF7GTLdW2MrKSa1H+fnMdw6+jE=
+    - secure: "m7w02tJFGEayuBD5YWQsJOyhOwxbDAxI5TYmUow2JOx0xF/Qopf8eY25W526MmBJxar5ccqzX3s0zReXMq+fNO4u9HuTxpgTPb3c6GkcBSpCPEUQuCAATLCOX0Z33MXJgwYJr6aHk1POqOTyUy7d/E/kMGSx3zD70EevkLn0lLom0f/p5DWfU94kST5/EbRRxMQmfWaAbHemlYSYOdZHnC/vK9FNWVSdR4CB8B83Y5pRoWFTXCYrmhIJJR0U9MxWUFf9Xuts/ZEy9FNTvuCcYZw/++81T5TFaRGoDg4Yf1uvyWgapQ3EbNsJGLQwC1MXj58wxzFZjLQ5LZANcy7/ABAonrJgMSp/QTcBkd0OtngW5WIBMK43LMdDCNWUq9Td0HAEpbdfk5nH9Yo83PNLLDYOOk8tszrnvqoZVjeQ4WQ2dUHo8ypdgzh4i093PfELGaZvIUCY4tGYixgAfC1qB5d+K3kAhuCHUdzFhJ1my5GLWVvx07RcZUngN3KpH10hDJ4hu5KxW0uW3mvFAq1obXUL1KPniIQZaqgJVlkfhrKSqEaVET375am59ZLkQ9qQfvQINGtKDzLSB9zW5nFxzw0j2KHFTzmqdDMEyN514QzLCFvkR/lClfHJyD0QDB7vdE+CfcESHOluzYqVLVF7GTLdW2MrKSa1H+fnMdw6+jE="
 
 # Send an email to the commiter if the pipeline failed at some point
 notifications:
