@@ -4,8 +4,8 @@ services:
 - docker
 before_install:
 - openssl aes-256-cbc -K $encrypted_4a9a75ae2b9a_key -iv $encrypted_4a9a75ae2b9a_iv
-  -in travis_deploy_rsa.enc -out ~/ASI4/MGPI/projet/sample-application-students/travis_deploy_rsa -d
-- ssh-add ./travis_deploy_rsa
+  -in travis_deploy_rsa.enc -out /tmp/travis_deploy_rsa -d
+- ssh-add /tmp/travis_deploy_rsa
 - sudo service mysql stop
 - docker pull takimatraining/devops-training-db
 - docker run -d -p 127.0.0.1:3306:3306 takimatraining/devops-training-db
